@@ -1,111 +1,11 @@
 "use client";
+import ButtonSection from "@/components/ApiKeys/ButtonSection";
 import CodeViewer from "@/components/ApiKeys/CodeViewer";
 import Layout from "@/components/Layout";
-import GrayParah18 from "@/components/UI/GrayParah18";
 import GraySmallHeading from "@/components/UI/GraySmallHeading";
-import {
-  selectTotalCredits,
-  selectUptrainAccessKey,
-  selectUsedCredits,
-} from "@/store/reducers/userInfo";
-import Image from "next/image";
+import { selectUptrainAccessKey } from "@/store/reducers/userInfo";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
-const Working = (props) => {
-  return (
-    <div className="bg-[#171721] w-full p-3 rounded-xl mt-1.5">
-      {props.children}
-    </div>
-  );
-};
-
-const ApiSection = () => {
-  const uptrainAccessKey = useSelector(selectUptrainAccessKey);
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(uptrainAccessKey);
-  };
-
-  return (
-    <div className="mb-8">
-      <GraySmallHeading>Your API Key</GraySmallHeading>
-      <div className="gap-3 flex items-center">
-        <div className="bg-[#171721] rounded-xl flex justify-between py-2.5 px-5 items-center mt-1.5 flex-1">
-          <GrayParah18>{uptrainAccessKey}</GrayParah18>
-          <button onClick={copyToClipboard}>
-            <Image src="./CopyIcon.svg" width={18} height={18} />
-          </button>
-        </div>
-        {/* <button className="bg-transparent border-[#5587FD] border-2 rounded-xl px-5 py-3 font-medium text-sm text-[#5587FD] hover:bg-[#5587FD] hover:text-[#171721]">
-          Revoke API Key
-        </button> */}
-      </div>
-    </div>
-  );
-};
-
-const CreditsSection = () => {
-  const totalCredits = useSelector(selectTotalCredits);
-  const usedCredits = useSelector(selectUsedCredits);
-
-  return (
-    <div className="mb-8">
-      <GraySmallHeading>Credits left</GraySmallHeading>
-      <GrayParah18 className="mt-1.5">
-        {usedCredits}
-        <span className="text-[#4F4F56]">/{totalCredits}</span>
-      </GrayParah18>
-    </div>
-  );
-};
-
-const TabButton = (props) => {
-  return (
-    <button
-      className={`font-medium border-b-2 px-3 pb-1  ${
-        props.selected
-          ? "text-[#F0F0F8] border-[#5587FD]"
-          : "text-[#5C5C66] border-[#5C5C66]"
-      }`}
-      onClick={props.onClick}
-    >
-      <p>{props.title}</p>
-    </button>
-  );
-};
-
-const ButtonSection = (props) => {
-  return (
-    <div className="flex justify-between mb-5">
-      <div className="flex gap-5">
-        <TabButton
-          selected={props.tabs == 0}
-          onClick={() => {
-            props.setTabs(0);
-          }}
-          title="Log and Evaluate"
-        />
-        <TabButton
-          selected={props.tabs == 1}
-          onClick={() => {
-            props.setTabs(1);
-          }}
-          title="Experiments"
-        />
-        <TabButton
-          selected={props.tabs == 2}
-          onClick={() => {
-            props.setTabs(2);
-          }}
-          title="Open Source"
-        />
-      </div>
-      <button onClick={props.onClick}>
-        <Image src="/CopyIcon.svg" width={24} height={24} alt="copy icon" />
-      </button>
-    </div>
-  );
-};
 
 const WorkingSection = () => {
   const [tabs, setTabs] = useState(0);
@@ -194,7 +94,7 @@ print(json.dumps(results, indent=3))`;
   return (
     <div className="mb-8">
       <GraySmallHeading>How it Works</GraySmallHeading>
-      <Working>
+      <div className="bg-[#171721] w-full p-3 rounded-xl mt-1.5">
         <ButtonSection
           tabs={tabs}
           setTabs={setTabs}
@@ -209,7 +109,7 @@ print(json.dumps(results, indent=3))`;
             <CodeViewer horizontal>{openSource}</CodeViewer>
           )}
         </pre>
-      </Working>
+      </div>
     </div>
   );
 };
@@ -218,8 +118,6 @@ const page = () => {
   return (
     <Layout heading="API Keys">
       <div className="bg-[#23232D] rounded-xl p-8 w-[calc(100vw-640px)]">
-        {/* <ApiSection />
-        <CreditsSection /> */}
         <WorkingSection />
       </div>
     </Layout>
